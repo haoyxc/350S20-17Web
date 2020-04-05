@@ -19,6 +19,8 @@
   },
   "homepage": "https://github.com/haoyxc/350S20-17Web#readme",
   "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.9.7",
     "nodemon": "^2.0.2"
   }
 }
