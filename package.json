@@ -1,0 +1,24 @@
+{
+  "name": "webapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon index.js",
+    "client": "npm start --prefix frontend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/haoyxc/350S20-17Web.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/haoyxc/350S20-17Web/issues"
+  },
+  "homepage": "https://github.com/haoyxc/350S20-17Web#readme",
+  "dependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
