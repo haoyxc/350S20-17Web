@@ -11,17 +11,25 @@ export default class POIDisplay extends Component {
     return (
       <div style={individualPoi}>
         <h3>{poi.name}</h3>
-        <p>{poi.location}</p>
+        <p style={poiDetail}>{poi.address}</p>
+        <p style={poiDetail}>
+          ({poi.longitude}, {poi.latitude})
+        </p>
         {keys.map((k) => {
           return (
-            <p>
-              {k}: {details[k]}
+            <p style={poiDetail}>
+              {k.charAt(0).toUpperCase() + k.slice(1)}: {details[k]}
             </p>
           );
         })}
-        <button className="btn btn-danger btn-sm" type="submit" value="Delete">
-          Delete POI
-        </button>
+        <div className={poiBtns}>
+          <button className="btn btn-danger btn-sm" type="submit" value="Delete">
+            Delete POI
+          </button>
+          <button className="btn btn-secondary btn-sm" type="submit" value="Edit">
+            Edit POI
+          </button>
+        </div>
       </div>
     );
   }
@@ -30,4 +38,12 @@ const individualPoi = {
   margin: "10px",
   backgroundColor: "#b5c6cf",
   padding: "15px",
+};
+const poiBtns = {
+  display: "flex",
+  flexDirection: "row",
+};
+const poiDetail = {
+  padding: "0px",
+  margin: "0px",
 };

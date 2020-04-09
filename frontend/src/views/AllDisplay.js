@@ -10,17 +10,22 @@ export default class AllDisplay extends Component {
       pois: [
         {
           name: "Best Bathroom",
-          location: "Huntsman Hall",
           category: "Bathroom",
+          longitude: 122,
+          latitude: 455,
+          address: "2019 michael rd",
           details: { stalls: 2, description: "bad" },
         },
         {
           name: "Mezz Fountain",
-          location: "Harrison College House",
           category: "Water Fountain",
+          longitude: 31,
+          latitude: 54.2,
+          address: "3010 car ave",
           details: { status: "always GREEN" },
         },
       ],
+      redirectToAdd: false,
       otherPanel: null,
     };
     this.handleShowAdd = this.handleShowAdd.bind(this);
