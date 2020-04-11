@@ -21,6 +21,11 @@ const poiSchema = new mongoose.Schema({
   longitude: {
     type: Number,
   },
+  approved: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
   imageUrl: {
     type: String,
   },
@@ -28,7 +33,9 @@ const poiSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.Mixed,
   },
 });
+
 let POI = mongoose.model("POI", poiSchema);
+
 module.exports = {
   POI: POI,
 };

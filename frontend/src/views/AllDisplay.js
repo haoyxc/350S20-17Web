@@ -37,7 +37,7 @@ export default class AllDisplay extends Component {
     this.setState({ otherPanel: "add" });
   }
   render() {
-    let { pois, otherPanel } = this.state;
+    let { pois, otherPanel, redirectToAdd } = this.state;
 
     return (
       <div style={outerContainer}>
