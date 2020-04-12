@@ -1,31 +1,33 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router";
 import POIDisplay from "../components/POIDisplay";
-
+import axios from "axios";
 import AddPOI from "./AddPOI";
+import { BASEURL, BUILDINGS } from "../constants";
 
 export default class AllDisplay extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pois: [
-        {
-          name: "Best Bathroom",
-          category: "Bathroom",
-          longitude: 122,
-          latitude: 455,
-          address: "2019 michael rd",
-          details: { stalls: 2, description: "bad" }
-        },
-        {
-          name: "Mezz Fountain",
-          category: "Water Fountain",
-          longitude: 31,
-          latitude: 54.2,
-          address: "3010 car ave",
-          details: { status: "always GREEN" }
-        }
-      ],
+      pois: null,
+      //   [
+      //   {
+      //     name: "Best Bathroom",
+      //     category: "Bathroom",
+      //     longitude: 122,
+      //     latitude: 455,
+      //     address: "2019 michael rd",
+      //     details: { stalls: 2, description: "bad" }
+      //   },
+      //   {
+      //     name: "Mezz Fountain",
+      //     category: "Water Fountain",
+      //     longitude: 31,
+      //     latitude: 54.2,
+      //     address: "3010 car ave",
+      //     details: { status: "always GREEN" }
+      //   }
+      // ],
       redirectToAdd: false,
       otherPanel: null
     };
@@ -33,6 +35,13 @@ export default class AllDisplay extends Component {
   }
   componentDidMount() {
     //get the POIs here
+    console.log("daa");
+    axios.get(`${BASEURL}/getApprovedPOIs`).then(resp => {
+      console.log(resp.data);
+      if (resp.data.pois) {
+        this.setState({ pois: resp.data.pois });
+      }
+    });
   }
   handleAddClick(e) {
     e.preventDefault();
@@ -48,9 +57,8 @@ export default class AllDisplay extends Component {
       <div style={outerContainer}>
         <div style={innerContainer}>
           <div>
-            {pois.map(p => (
-              <POIDisplay poi={p} />
-            ))}
+            {pois ? pois.map(p => <POIDisplay poi={p} />) : "loading"}
+
             <button
               className="btn btn-secondary btn-sm"
               type="submit"

@@ -7,21 +7,32 @@ export default class POIDisplay extends Component {
   render() {
     let { poi } = this.props;
     let details = poi.details;
-    let keys = Object.keys(poi.details);
+    let keys = poi.details ? Object.keys(poi.details) : null;
+
     return (
       <div style={individualPoi}>
         <h3>{poi.name}</h3>
+        <p style={poiDetail}>{poi.category}</p>
         <p style={poiDetail}>{poi.address}</p>
         <p style={poiDetail}>
           ({poi.longitude}, {poi.latitude})
         </p>
-        {keys.map(k => {
+        {keys
+          ? keys.map(k => {
+              return (
+                <p style={poiDetail}>
+                  {k.charAt(0).toUpperCase() + k.slice(1)}: {details[k]}
+                </p>
+              );
+            })
+          : null}
+        {/* {keys.map(k => {
           return (
             <p style={poiDetail}>
               {k.charAt(0).toUpperCase() + k.slice(1)}: {details[k]}
             </p>
           );
-        })}
+        })} */}
         <div className={poiBtns}>
           <button className="btn btn-danger btn-sm" type="submit" value="Delete">
             Delete POI
