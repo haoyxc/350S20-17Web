@@ -15,7 +15,7 @@ export default class POIDisplay extends Component {
         <p style={poiDetail}>
           ({poi.longitude}, {poi.latitude})
         </p>
-        {keys.map((k) => {
+        {keys.map(k => {
           return (
             <p style={poiDetail}>
               {k.charAt(0).toUpperCase() + k.slice(1)}: {details[k]}
@@ -37,13 +37,14 @@ export default class POIDisplay extends Component {
 const individualPoi = {
   margin: "10px",
   backgroundColor: "#b5c6cf",
-  padding: "15px",
+  padding: "15px"
 };
 const poiBtns = {
   display: "flex",
   flexDirection: "row",
+  padding: "0px 10px"
 };
 const poiDetail = {
   padding: "0px",
-  margin: "0px",
+  margin: "0px"
 };
