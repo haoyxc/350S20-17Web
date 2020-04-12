@@ -3,7 +3,18 @@ import { Redirect } from "react-router";
 import POIDisplay from "../components/POIDisplay";
 import axios from "axios";
 import AddPOI from "./AddPOI";
-import { BASEURL, BUILDINGS } from "../constants";
+import { BASEURL } from "../constants";
+import UserPOISubmissions from "./UserPOISubmissions";
+import styled from "styled-components";
+
+const HoverText = styled.p`
+  color: #000;
+  :hover {
+    color: #839289;
+    cursor: pointer;
+    font-weight: bold;
+  }
+`;
 
 export default class AllDisplay extends Component {
   constructor(props) {
@@ -29,9 +40,11 @@ export default class AllDisplay extends Component {
       //   }
       // ],
       redirectToAdd: false,
+      goToApprove: false,
       otherPanel: null
     };
     this.handleAddClick = this.handleAddClick.bind(this);
+    this.handleApprovePOIs = this.handleApprovePOIs.bind(this);
   }
   componentDidMount() {
     //get the POIs here
@@ -47,10 +60,16 @@ export default class AllDisplay extends Component {
     e.preventDefault();
     this.setState({ redirectToAdd: true });
   }
+  handleApprovePOIs(e) {
+    e.preventDefault();
+    this.setState({ goToApprove: true });
+  }
   render() {
-    let { pois, otherPanel, redirectToAdd } = this.state;
+    let { pois, otherPanel, redirectToAdd, goToApprove } = this.state;
     if (redirectToAdd) {
       return <Redirect to="/add" />;
+    } else if (goToApprove) {
+      return <Redirect to="/approveReqs" />;
     }
 
     return (
@@ -67,8 +86,10 @@ export default class AllDisplay extends Component {
             >
               Add
             </button>
+            <HoverText onClick={this.handleApprovePOIs}>
+              Or, see POIs you can approve
+            </HoverText>
           </div>
-          <div>{otherPanel === "add" ? <AddPOI /> : null}</div>
         </div>
       </div>
     );

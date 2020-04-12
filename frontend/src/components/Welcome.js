@@ -12,5 +12,5 @@ export default class Welcome extends Component {
 const welcome = {
   textAlign: "center",
   backgroundColor: "#bae1ff",
-  padding: "20px",
+  padding: "20px"
 };
