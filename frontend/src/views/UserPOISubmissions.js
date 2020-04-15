@@ -27,7 +27,7 @@ export default class UserPOISubmissions extends Component {
       return <p>LOADING</p>;
     }
     return (
-      <div>
+      <div style={outerContainer}>
         <h3>Here are the pOIS</h3>
         {pois.map((p) => (
           <UserPOI poi={p} />
@@ -36,3 +36,7 @@ export default class UserPOISubmissions extends Component {
     );
   }
 }
+const outerContainer = {
+  margin: "0 50px",
+  textAlign: "center",
+};

@@ -46,4 +46,12 @@ router.get("/getApprovedPOIs", (req, res) => {
     });
 });
 
+router.post("/denyPOI", (req, res) => {
+  console.log("IN DENY POI");
+});
+
+router.post("/acceptPOI", (req, res) => {
+  console.log("IN ACCEPT POI");
+});
+
 module.exports = router;

@@ -41,7 +41,7 @@ export default class AllDisplay extends Component {
       // ],
       redirectToAdd: false,
       goToApprove: false,
-      otherPanel: null
+      otherPanel: null,
     };
     this.handleAddClick = this.handleAddClick.bind(this);
     this.handleApprovePOIs = this.handleApprovePOIs.bind(this);
@@ -49,7 +49,7 @@ export default class AllDisplay extends Component {
   componentDidMount() {
     //get the POIs here
     console.log("daa");
-    axios.get(`${BASEURL}/getApprovedPOIs`).then(resp => {
+    axios.get(`${BASEURL}/getApprovedPOIs`).then((resp) => {
       console.log(resp.data);
       if (resp.data.pois) {
         this.setState({ pois: resp.data.pois });
@@ -76,7 +76,7 @@ export default class AllDisplay extends Component {
       <div style={outerContainer}>
         <div style={innerContainer}>
           <div>
-            {pois ? pois.map(p => <POIDisplay poi={p} />) : "loading"}
+            {pois ? pois.map((p) => <POIDisplay poi={p} />) : "loading"}
 
             <button
               className="btn btn-secondary btn-sm"
@@ -96,11 +96,11 @@ export default class AllDisplay extends Component {
   }
 }
 const innerContainer = {
-  display: "grid",
-  gridTemplateColumns: "1fr 2fr",
-  margin: "20px"
+  // display: "grid",
+  // gridTemplateColumns: "1fr 2fr",
+  // margin: "20px"
 };
 const outerContainer = {
   margin: "0 50px",
-  textAlign: "center"
+  textAlign: "center",
 };
