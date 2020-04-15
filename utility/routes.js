@@ -14,24 +14,33 @@ router.post("/addPOI", (req, res) => {
   const poiToSave = new POI(poiObj);
   poiToSave
     .save()
-    .then(response => {
+    .then((response) => {
       res.send({ success: true });
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
       res.send({ sucess: false });
     });
 });
 // Get all the POIs that are not approved yet
-router.get("/getSubmittedPOIs", (req, res) => {});
+router.get("/getSubmittedPOIs", (req, res) => {
+  POI.find({ approved: false })
+    .then((resp) => {
+      res.send({ pois: resp });
+    })
+    .catch((e) => {
+      console.log(e);
+      res.send({ error: true });
+    });
+});
 
 router.get("/getApprovedPOIs", (req, res) => {
   POI.find({ approved: true })
-    .then(resp => {
+    .then((resp) => {
       console.log("ROUTE 2", resp);
       res.send({ pois: resp });
     })
-    .catch(e => {
+    .catch((e) => {
       console.log(e);
       res.send({ error: true });
     });

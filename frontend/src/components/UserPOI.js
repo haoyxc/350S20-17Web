@@ -6,7 +6,49 @@ export default class UserPOI extends Component {
   }
 
   render() {
-    let { userPOI } = this.props;
-    return <div></div>;
+    let { poi } = this.props;
+    let details = poi.details;
+    let keys = poi.details ? Object.keys(poi.details) : null;
+    return (
+      <div style={individualPoi}>
+        <h3>{poi.name}</h3>
+        <p style={poiDetail}>{poi.category}</p>
+        <p style={poiDetail}>{poi.address}</p>
+        <p style={poiDetail}>
+          ({poi.longitude}, {poi.latitude})
+        </p>
+        {keys
+          ? keys.map((k) => {
+              return (
+                <p style={poiDetail}>
+                  {k.charAt(0).toUpperCase() + k.slice(1)}: {details[k]}
+                </p>
+              );
+            })
+          : null}
+        <div className={poiBtns}>
+          <button className="btn btn-danger btn-sm" type="submit" value="Deny">
+            Deny
+          </button>
+          <button className="btn btn-success btn-sm" type="submit" value="Approve">
+            Approve
+          </button>
+        </div>
+      </div>
+    );
   }
 }
+const individualPoi = {
+  margin: "10px",
+  backgroundColor: "#b5c6cf",
+  padding: "15px",
+};
+const poiBtns = {
+  display: "flex",
+  flexDirection: "row",
+  padding: "0px 10px",
+};
+const poiDetail = {
+  padding: "0px",
+  margin: "0px",
+};
