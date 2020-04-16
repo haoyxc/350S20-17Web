@@ -1,7 +1,13 @@
 let mongoose = require("mongoose");
 let connect = process.env.MONGODB_URI;
 
-mongoose.connect(connect, { useNewUrlParser: true });
+console.log(connect)
+
+try {
+  mongoose.connect(connect, { useNewUrlParser: true });
+} catch (error) {
+  console.log(error)
+}
 
 const poiSchema = new mongoose.Schema({
   name: {
