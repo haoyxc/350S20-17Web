@@ -3,8 +3,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { BASEURL, BUILDINGS } from "../constants";
 import { Redirect } from "react-router";
 import axios from "axios";
+import AddImageButton from "../components/AddImageButton";
+import Image from "../components/Image";
+import Spinner from "../components/Spinner";
 
 export default class AddPOI extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -14,14 +18,44 @@ export default class AddPOI extends Component {
       address: null,
       latitude: null,
       longitude: null,
-      imageURL: null,
+      image: null
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
+  // gets called when a file is selected
+  onFileUploaded = e => {
+    console.log('on change')
+    // handle image uploaded
+    const files = Array.from(e.target.files)
+    this.setState({ uploading: true })
+
+    const reader = new FileReader()
+    reader.readAsDataURL(files[0])
+    reader.onload = () => {
+      var encodedImage = reader.result
+      this.setState({ image: encodedImage });
+      this.setState({ uploading: false })
+    }
+    reader.onerror = error => {
+      console.log(error)
+      this.setState({ uploading: false })
+      alert("Error uploading image");
+    }
+
+  }
+
+  removeImage = () => {
+    this.setState({
+      image: null
+    })
+  }
+
   handleChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
+
   handleSubmit(e) {
     e.preventDefault();
     if (
@@ -53,6 +87,19 @@ export default class AddPOI extends Component {
       });
   }
   render() {
+    const { uploading, image } = this.state
+
+    const imageContent = () => {
+      switch(true) {
+        case uploading:
+          return <Spinner />
+        case image != null:
+          return <Image image={image} removeImage={this.removeImage} />
+        default:
+          return <AddImageButton onChange={this.onFileUploaded} />
+      }
+    }
+
     return (
       <div style={pageStyle}>
         <h2>Submit a POI</h2>
@@ -73,7 +120,7 @@ export default class AddPOI extends Component {
             placeholder="Description"
             onChange={this.handleChange}
           />
-          <label for="category">Choose a Category:</label>
+          <label htmlFor="category">Choose a Category:</label>
           <select
             id="category"
             name="category"
@@ -109,17 +156,13 @@ export default class AddPOI extends Component {
             placeholder="Longitude"
             onChange={this.handleChange}
           />
-          <input
-            className="form-control"
-            type="text"
-            name="imageURL"
-            id="imageURL"
-            placeholder="Image URL"
-            onChange={this.handleChange}
-          />
+          <div className='image-content'>
+            {imageContent()}
+          </div>
           <button className="btn btn-secondary btn-sm" type="submit" value="Login">
             Submit
           </button>
+
         </form>
       </div>
     );

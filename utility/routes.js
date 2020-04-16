@@ -8,6 +8,7 @@ router.use(bodyParser.urlencoded());
 
 router.use(bodyParser.json());
 
+// add a new POI as the admin
 router.post("/addPOI", (req, res) => {
   let poiObj = req.body;
   poiObj.approved = true;
@@ -22,6 +23,7 @@ router.post("/addPOI", (req, res) => {
       res.send({ sucess: false });
     });
 });
+
 // Get all the POIs that are not approved yet
 router.get("/getSubmittedPOIs", (req, res) => {
   POI.find({ approved: false })
