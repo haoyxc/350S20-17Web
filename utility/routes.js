@@ -39,13 +39,22 @@ router.get("/getSubmittedPOIs", (req, res) => {
 router.get("/getApprovedPOIs", (req, res) => {
   POI.find({ approved: true })
     .then((resp) => {
-      console.log("ROUTE 2", resp);
       res.send({ pois: resp });
     })
     .catch((e) => {
       console.log(e);
       res.send({ error: true });
     });
+});
+
+router.post("/denyPOI", (req, res) => {
+  console.log("IN DENY POI");
+  console.log(req.body.poi);
+});
+
+router.post("/acceptPOI", (req, res) => {
+  console.log("IN ACCEPT POI");
+  console.log(req.body.poi);
 });
 
 module.exports = router;
