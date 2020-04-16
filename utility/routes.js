@@ -48,11 +48,31 @@ router.get("/getApprovedPOIs", (req, res) => {
 router.post("/denyPOI", (req, res) => {
   console.log("IN DENY POI");
   console.log(req.body.poi);
+  let poiID = req.body.poi._id;
+  POI.findOneAndDelete({ _id: poiID })
+    .then((resp) => {
+      console.log(resp);
+      res.send({ success: true });
+    })
+    .catch((e) => {
+      console.log(e);
+      res.send({ success: false });
+    });
 });
 
 router.post("/acceptPOI", (req, res) => {
   console.log("IN ACCEPT POI");
   console.log(req.body.poi);
+  let poiID = req.body.poi._id;
+  POI.findOneAndUpdate({ _id: poiID }, { approved: true })
+    .then((resp) => {
+      console.log(resp);
+      res.send({ success: true });
+    })
+    .catch((e) => {
+      console.log(e);
+      res.send({ success: false });
+    });
 });
 
 module.exports = router;
