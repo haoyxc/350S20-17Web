@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { BASEURL, BUILDINGS } from "../constants";
 import { Redirect } from "react-router";
 import axios from "axios";
+import ImageDisplay from "./ImageDisplay";
 
 export default class POIDisplay extends Component {
 
@@ -60,6 +61,7 @@ export default class POIDisplay extends Component {
             onClick={this.onEdit}>
             Edit POI
           </button>
+          <ImageDisplay image={poi.image}/>
         </div>
       </div>
     );

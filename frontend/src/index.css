@@ -64,11 +64,16 @@ input[type=file] {
   position: absolute
 }
 
-img {
+.image-display {
+  max-height: 200px;
+  max-width: 200px;
+  padding: 10px;
+}
+
+.removable-image {
   max-height: 420px;
   max-width: 420px;
   padding: 10px;
-  border: 1px dashed #999;
 }
 
 /* Animations */

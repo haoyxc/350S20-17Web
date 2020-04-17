@@ -4,7 +4,7 @@ import { BASEURL, BUILDINGS } from "../constants";
 import { Redirect } from "react-router";
 import axios from "axios";
 import AddImageButton from "../components/AddImageButton";
-import Image from "../components/Image";
+import RemovableImage from "../components/RemovableImage";
 import Spinner from "../components/Spinner";
 
 export default class AddPOI extends Component {
@@ -102,7 +102,7 @@ export default class AddPOI extends Component {
         case uploading:
           return <Spinner />
         case image != null:
-          return <Image image={image} removeImage={this.removeImage} />
+          return <RemovableImage image={image} removeImage={this.removeImage} />
         default:
           return <AddImageButton onChange={this.onFileUploaded} />
       }
