@@ -26,7 +26,6 @@ export default class AddPOI extends Component {
 
   // gets called when a file is selected
   onFileUploaded = e => {
-    console.log('on change')
     // handle image uploaded
     const files = Array.from(e.target.files)
     this.setState({ uploading: true })
@@ -75,6 +74,7 @@ export default class AddPOI extends Component {
         category: this.state.category,
         latitude: this.state.latitude,
         longitude: this.state.longitude,
+        image: this.state.image
       })
       .then((resp) => {
         console.log(resp);
