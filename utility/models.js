@@ -32,7 +32,7 @@ const poiSchema = new mongoose.Schema({
     required: true,
     default: false,
   },
-  imageUrl: {
+  image: {
     type: String,
   },
   details: {

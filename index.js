@@ -17,6 +17,9 @@ app.use(
 );
 // app.use("/api", proxy({ target: "http://10.103.76.104:3000", changeOrigin: true }));
 app.use(routes);
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }));
+
 const port = 8000;
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 module.exports = app;

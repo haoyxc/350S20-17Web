@@ -57,4 +57,36 @@ router.post("/acceptPOI", (req, res) => {
   console.log(req.body.poi);
 });
 
+// delete POI as the admin
+router.post("/deletePOI", (req, res) => {
+  let poiObj = req.body;
+  const name = poiObj.name;
+
+  POI.findOneAndDelete({ "name" : name})
+    .then((response) => {
+      res.send({ success: true });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.send({ sucess: false })
+    });
+});
+
+// edit POI as the admin
+router.post("/editPOI", (req, res) => {
+  let poiObj = req.body;
+  poiObj.approved = true;
+  const poiToSave = new POI(poiObj);
+  poiToSave
+    .save()
+    .then((response) => {
+      res.send({ success: true });
+      res.redirect("/")
+    })
+    .catch((err) => {
+      console.log(err);
+      res.send({ sucess: false });
+    });
+});
+
 module.exports = router;
