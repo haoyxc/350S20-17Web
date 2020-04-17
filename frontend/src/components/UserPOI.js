@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { BASEURL } from "../constants";
+import { Redirect } from "react-router";
 
 export default class UserPOI extends Component {
   constructor(props) {

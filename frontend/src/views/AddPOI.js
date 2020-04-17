@@ -1,14 +1,22 @@
 import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BASEURL, BUILDINGS } from "../constants";
+import { BASEURL, CATEGORIES } from "../constants";
 import { Redirect } from "react-router";
 import axios from "axios";
 import AddImageButton from "../components/AddImageButton";
 import RemovableImage from "../components/RemovableImage";
 import Spinner from "../components/Spinner";
+import styled from "styled-components";
 
+const HoverText = styled.p`
+  color: #000;
+  :hover {
+    color: #839289;
+    cursor: pointer;
+    font-weight: bold;
+  }
+`;
 export default class AddPOI extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -20,43 +28,63 @@ export default class AddPOI extends Component {
       longitude: null,
       image: null,
       uploading: false,
-      redirectToMain: false
+      details: null,
+      //Redirect things
+      redirectToMain: false,
+      redirectToCategory: false,
+      categoryFields: null,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChangeDetail = this.handleChangeDetail.bind(this);
+    this.handleBack = this.handleBack.bind(this);
+  }
+
+  componentDidMount() {
+    let { category } = this.props;
+    let catFields = CATEGORIES[category];
+    this.setState({ categoryFields: catFields });
+    console.log(catFields);
   }
 
   // gets called when a file is selected
-  onFileUploaded = e => {
+  onFileUploaded = (e) => {
     // handle image uploaded
-    const files = Array.from(e.target.files)
-    this.setState({ uploading: true })
+    const files = Array.from(e.target.files);
+    this.setState({ uploading: true });
 
-    const reader = new FileReader()
-    reader.readAsDataURL(files[0])
+    const reader = new FileReader();
+    reader.readAsDataURL(files[0]);
     reader.onload = () => {
-      var encodedImage = reader.result
+      var encodedImage = reader.result;
       this.setState({ image: encodedImage });
-      this.setState({ uploading: false })
-    }
-    reader.onerror = error => {
-      console.log(error)
-      this.setState({ uploading: false })
+      this.setState({ uploading: false });
+    };
+    reader.onerror = (error) => {
+      console.log(error);
+      this.setState({ uploading: false });
       alert("Error uploading image");
-    }
-
-  }
+    };
+  };
 
   removeImage = () => {
     this.setState({
-      image: null
-    })
-  }
+      image: null,
+    });
+  };
 
   handleChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
-
+  handleChangeDetail(e) {
+    let { details } = this.state;
+    let copyDetails = Object.assign({}, details);
+    copyDetails[e.target.name] = e.target.value;
+    this.setState({ details: copyDetails });
+  }
+  handleBack(e) {
+    this.setState({ redirectToMain: true });
+  }
   handleSubmit(e) {
     e.preventDefault();
     if (
@@ -73,40 +101,50 @@ export default class AddPOI extends Component {
       .post(`${BASEURL}/addPOI`, {
         name: this.state.name,
         description: this.state.description,
-        category: this.state.category,
+        category: this.props.category,
         address: this.state.address,
         latitude: this.state.latitude,
         longitude: this.state.longitude,
-        image: this.state.image
+        details: this.state.details,
+        image: this.state.image,
       })
       .then((resp) => {
         console.log(resp);
+        this.setState({ redirectToMain: true });
         if (resp.data.error) {
           return;
         } else {
-          //no error
           console.log(resp.data);
           this.setState({ redirectToMain: true });
         }
       });
   }
   render() {
-    const { uploading, image, redirectToMain } = this.state
+    const {
+      uploading,
+      image,
+      redirectToMain,
+      redirectToCategory,
+      categoryFields,
+    } = this.state;
 
     if (redirectToMain) {
       return <Redirect to="/" />;
     }
+    // else if (redirectToCategory) {
+    //   return <Redirect to="/" />;
+    // }
 
     const imageContent = () => {
-      switch(true) {
+      switch (true) {
         case uploading:
-          return <Spinner />
+          return <Spinner />;
         case image != null:
-          return <RemovableImage image={image} removeImage={this.removeImage} />
+          return <RemovableImage image={image} removeImage={this.removeImage} />;
         default:
-          return <AddImageButton onChange={this.onFileUploaded} />
+          return <AddImageButton onChange={this.onFileUploaded} />;
       }
-    }
+    };
 
     return (
       <div style={pageStyle}>
@@ -128,18 +166,20 @@ export default class AddPOI extends Component {
             placeholder="Description"
             onChange={this.handleChange}
           />
-          <label htmlFor="category">Choose a Category:</label>
-          <select
-            id="category"
-            name="category"
-            className="form-control"
-            onChange={this.handleChange}
-            defaultValue="Bathroom"
-          >
-            <option value="Bathroom">Bathroom</option>
-            <option value="Water Fountain">Water Fountain</option>
-            <option value="Study Space">Study Space</option>
-          </select>
+          {categoryFields
+            ? categoryFields.map((f) => {
+                return (
+                  <input
+                    className="form-control"
+                    type="text"
+                    name={f}
+                    id={f}
+                    placeholder={f}
+                    onChange={this.handleChangeDetail}
+                  />
+                );
+              })
+            : null}
           <input
             className="form-control"
             type="text"
@@ -164,14 +204,13 @@ export default class AddPOI extends Component {
             placeholder="Longitude"
             onChange={this.handleChange}
           />
-          <div className='image-content'>
-            {imageContent()}
-          </div>
-          <button className="btn btn-secondary btn-sm" type="submit" value="Login">
+
+          <div className="image-content">{imageContent()}</div>
+          <button className="btn btn-secondary btn-sm" type="submit" value="Submit">
             Submit
           </button>
-
         </form>
+        <HoverText onClick={this.handleBack}>Go Back</HoverText>
       </div>
     );
   }

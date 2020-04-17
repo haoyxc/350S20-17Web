@@ -41,11 +41,10 @@ export default class AllDisplay extends Component {
       // ],
       redirectToAdd: false,
       goToApprove: false,
-      otherPanel: null,
     };
     this.handleAddClick = this.handleAddClick.bind(this);
     this.handleApprovePOIs = this.handleApprovePOIs.bind(this);
-    this.handleDeletedPOI = this.handleDeletedPOI.bind(this)
+    this.handleDeletedPOI = this.handleDeletedPOI.bind(this);
   }
 
   componentDidMount() {
@@ -70,14 +69,16 @@ export default class AllDisplay extends Component {
   }
 
   handleDeletedPOI(deletedPoi) {
-    console.log(deletedPoi._id)
-    this.setState({pois: this.state.pois.filter(function(poi) {
-      return poi.name !== deletedPoi.name
-    })});
+    console.log(deletedPoi._id);
+    this.setState({
+      pois: this.state.pois.filter(function(poi) {
+        return poi.name !== deletedPoi.name;
+      }),
+    });
   }
 
   render() {
-    let { pois, otherPanel, redirectToAdd, goToApprove } = this.state;
+    let { pois, redirectToAdd, goToApprove } = this.state;
     if (redirectToAdd) {
       return <Redirect to="/add" />;
     } else if (goToApprove) {
@@ -88,7 +89,11 @@ export default class AllDisplay extends Component {
       <div style={outerContainer}>
         <div style={innerContainer}>
           <div>
-            {pois ? pois.map((p) => <POIDisplay poi={p} handleDeletedPOI={this.handleDeletedPOI} />) : "loading"}
+            {pois
+              ? pois.map((p) => (
+                  <POIDisplay poi={p} handleDeletedPOI={this.handleDeletedPOI} />
+                ))
+              : "loading"}
 
             <button
               className="btn btn-secondary btn-sm"
