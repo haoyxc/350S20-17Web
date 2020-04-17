@@ -74,19 +74,19 @@ router.post("/deletePOI", (req, res) => {
 
 // edit POI as the admin
 router.post("/editPOI", (req, res) => {
-  let poiObj = req.body;
-  poiObj.approved = true;
-  const poiToSave = new POI(poiObj);
-  poiToSave
-    .save()
+
+    let poiObj = req.body;
+    const name = poiObj.name;
+    
+    POI.findOneAndUpdate({ "name" : name}, {$set: req.body})
     .then((response) => {
       res.send({ success: true });
-      res.redirect("/")
     })
     .catch((err) => {
       console.log(err);
-      res.send({ sucess: false });
+      res.send({ sucess: false })
     });
+
 });
 
 module.exports = router;

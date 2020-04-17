@@ -5,6 +5,7 @@ import AddPOI from "./views/AddPOI";
 import Welcome from "./components/Welcome";
 import { BrowserRouter } from "react-router-dom";
 import { BrowserRouter as Switch, Route } from "react-router-dom";
+import EditPOI from "./views/EditPOI";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" exact component={AllDisplay} />
         <Route path="/add" exact component={AddPOI} />
         <Route path="/approveReqs" exact component={UserPOISubmissions} />
+        <Route path="/edit" exact component={EditPOI} />
       </Switch>
     </BrowserRouter>
   );
