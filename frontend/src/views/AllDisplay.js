@@ -70,7 +70,7 @@ export default class AllDisplay extends Component {
   }
 
   handleDeletedPOI(deletedPoi) {
-    console.log(deletedPoi.name)
+    console.log(deletedPoi._id)
     this.setState({pois: this.state.pois.filter(function(poi) {
       return poi.name !== deletedPoi.name
     })});

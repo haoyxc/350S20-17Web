@@ -2,16 +2,29 @@ import React, { Component } from "react";
 import { BASEURL, BUILDINGS } from "../constants";
 import { Redirect } from "react-router";
 import axios from "axios";
+import ImageDisplay from "./ImageDisplay";
 
 export default class POIDisplay extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      redirectToEdit: false,
+    };
     this.onDelete = this.onDelete.bind(this);
+    this.onEdit = this.onEdit.bind(this);
   }
 
   render() {
     let { poi } = this.props;
+    let redirectToEdit = this.state.redirectToEdit
+
+    if (redirectToEdit) {
+      return <Redirect to={{
+        pathname: '/edit',
+        poi: poi
+      }}/>
+    }
     let details = poi.details;
     let keys = poi.details ? Object.keys(poi.details) : null;
 
@@ -37,9 +50,11 @@ export default class POIDisplay extends Component {
             onClick={this.onDelete}>
             Delete POI
           </button>
-          <button className="btn btn-secondary btn-sm" type="submit" value="Edit">
+          <button className="btn btn-secondary btn-sm" type="submit" value="Edit"
+            onClick={this.onEdit}>
             Edit POI
           </button>
+          <ImageDisplay image={poi.image}/>
         </div>
       </div>
     );
@@ -66,6 +81,11 @@ export default class POIDisplay extends Component {
           this.props.handleDeletedPOI(poi)
         }
       });
+  }
+
+  onEdit() {
+    console.log("editing")
+    this.setState({ redirectToEdit: true });
   }
 
 }

@@ -4,21 +4,22 @@ import { BASEURL, BUILDINGS } from "../constants";
 import { Redirect } from "react-router";
 import axios from "axios";
 import AddImageButton from "../components/AddImageButton";
-import RemovableImage from "../components/RemovableImage";
 import Spinner from "../components/Spinner";
+import RemovableImage from "../components/RemovableImage";
 
-export default class AddPOI extends Component {
+export default class EditPOI extends Component {
 
   constructor(props) {
     super(props);
+    const poi = this.props.location.poi
     this.state = {
-      name: null,
-      description: null,
-      category: "Bathroom",
-      address: null,
-      latitude: null,
-      longitude: null,
-      image: null,
+      name: poi.name,
+      description: poi.description,
+      category: poi.category,
+      address: poi.address,
+      latitude: poi.latitude,
+      longitude: poi.longitude,
+      image: poi.image,
       uploading: false,
       redirectToMain: false
     };
@@ -59,6 +60,7 @@ export default class AddPOI extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
+    console.log(this.state)
     if (
       !this.state.name ||
       !this.state.description ||
@@ -70,11 +72,10 @@ export default class AddPOI extends Component {
       return;
     }
     axios
-      .post(`${BASEURL}/addPOI`, {
+      .post(`${BASEURL}/editPOI`, {
         name: this.state.name,
         description: this.state.description,
         category: this.state.category,
-        address: this.state.address,
         latitude: this.state.latitude,
         longitude: this.state.longitude,
         image: this.state.image
@@ -91,10 +92,10 @@ export default class AddPOI extends Component {
       });
   }
   render() {
-    const { uploading, image, redirectToMain } = this.state
+    const { name, description, category, address, latitude, longitude, uploading, image, redirectToMain } = this.state
 
     if (redirectToMain) {
-      return <Redirect to="/" />;
+        return <Redirect to="/" />;
     }
 
     const imageContent = () => {
@@ -116,7 +117,7 @@ export default class AddPOI extends Component {
             type="text"
             name="name"
             id="name"
-            placeholder="Name"
+            value={name}
             className="form-control"
             onChange={this.handleChange}
           />
@@ -125,7 +126,7 @@ export default class AddPOI extends Component {
             type="text"
             name="description"
             id="description"
-            placeholder="Description"
+            value={description}
             onChange={this.handleChange}
           />
           <label htmlFor="category">Choose a Category:</label>
@@ -134,7 +135,7 @@ export default class AddPOI extends Component {
             name="category"
             className="form-control"
             onChange={this.handleChange}
-            defaultValue="Bathroom"
+            value={category}
           >
             <option value="Bathroom">Bathroom</option>
             <option value="Water Fountain">Water Fountain</option>
@@ -145,7 +146,7 @@ export default class AddPOI extends Component {
             type="text"
             name="address"
             id="address"
-            placeholder="Address"
+            value={address}
             onChange={this.handleChange}
           />
           <input
@@ -153,7 +154,7 @@ export default class AddPOI extends Component {
             type="decimal"
             name="latitude"
             id="latitude"
-            placeholder="Latitude"
+            value={latitude}
             onChange={this.handleChange}
           />
           <input
@@ -161,14 +162,14 @@ export default class AddPOI extends Component {
             type="decimal"
             name="longitude"
             id="longitude"
-            placeholder="Longitude"
+            value={longitude}
             onChange={this.handleChange}
           />
           <div className='image-content'>
             {imageContent()}
           </div>
           <button className="btn btn-secondary btn-sm" type="submit" value="Login">
-            Submit
+            Save Changes
           </button>
 
         </form>
