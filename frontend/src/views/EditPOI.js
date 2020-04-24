@@ -13,6 +13,7 @@ export default class EditPOI extends Component {
     super(props);
     const poi = this.props.location.poi
     this.state = {
+      id: poi._id,
       name: poi.name,
       description: poi.description,
       category: poi.category,
@@ -37,7 +38,11 @@ export default class EditPOI extends Component {
     reader.readAsDataURL(files[0])
     reader.onload = () => {
       var encodedImage = reader.result
-      this.setState({ image: encodedImage });
+      if (encodedImage.length > 92404) {
+        alert("Image too large, try again with a smaller image.");
+      } else {
+        this.setState({ image: encodedImage });
+      }
       this.setState({ uploading: false })
     }
     reader.onerror = error => {
@@ -73,6 +78,7 @@ export default class EditPOI extends Component {
     }
     axios
       .post(`${BASEURL}/editPOI`, {
+        id: this.state.id,
         name: this.state.name,
         description: this.state.description,
         category: this.state.category,

@@ -79,10 +79,9 @@ router.post("/acceptPOI", (req, res) => {
 
 // delete POI as the admin
 router.post("/deletePOI", (req, res) => {
-  let poiObj = req.body;
-  const name = poiObj.name;
+  let poiID = req.body.id;
 
-  POI.findOneAndDelete({ "name" : name})
+  POI.findOneAndDelete({ _id: poiID })
     .then((response) => {
       res.send({ success: true });
     })
@@ -95,10 +94,9 @@ router.post("/deletePOI", (req, res) => {
 // edit POI as the admin
 router.post("/editPOI", (req, res) => {
 
-    let poiObj = req.body;
-    const name = poiObj.name;
+    let poiID = req.body.id;
     
-    POI.findOneAndUpdate({ "name" : name}, {$set: req.body})
+    POI.findOneAndUpdate({ _id: poiID }, {$set: req.body})
     .then((response) => {
       res.send({ success: true });
     })
