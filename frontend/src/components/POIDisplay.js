@@ -32,6 +32,7 @@ export default class POIDisplay extends Component {
       <div style={individualPoi}>
         <h3>{poi.name}</h3>
         <p style={categStyle}>{poi.category}</p>
+        <p style={poiDetail}>{poi.description}</p>
         <p style={poiDetail}>{poi.address}</p>
         <p style={poiDetail}>
           Location: ({poi.longitude}, {poi.latitude})
@@ -65,6 +66,7 @@ export default class POIDisplay extends Component {
     console.log("deleting " + poi)
     axios
       .post(`${BASEURL}/deletePOI`, {
+        id: poi._id,
         name: poi.name,
         description: poi.description,
         category: poi.category,

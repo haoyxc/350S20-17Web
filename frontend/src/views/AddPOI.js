@@ -56,15 +56,19 @@ export default class AddPOI extends Component {
     const reader = new FileReader();
     reader.readAsDataURL(files[0]);
     reader.onload = () => {
-      var encodedImage = reader.result;
-      this.setState({ image: encodedImage });
-      this.setState({ uploading: false });
-    };
-    reader.onerror = (error) => {
-      console.log(error);
-      this.setState({ uploading: false });
+      var encodedImage = reader.result
+      if (encodedImage.length > 92404) {
+        alert("Image too large, try again with a smaller image.");
+      } else {
+        this.setState({ image: encodedImage });
+      }
+      this.setState({ uploading: false })
+    }
+    reader.onerror = error => {
+      console.log(error)
+      this.setState({ uploading: false })
       alert("Error uploading image");
-    };
+    }
   };
 
   removeImage = () => {
