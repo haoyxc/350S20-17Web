@@ -1,9 +1,9 @@
 export const BASEURL = "http://localhost:8000";
 export const CATEGORIES = {
   Bathroom: ["Gender Neutral", "Number of Stalls"],
-  Outlet: ["Number of Outlets", "Is it working"],
+  Outlet: ["Number of Chargers"],
   "Water Fountain": ["Status (color)"],
   "Study Space": ["Activity Level"],
-  "Food Truck": ["Price", "Popular items"],
+  "Food Truck": ["Average Price ($/$$/$$$)"],
   Printer: ["Color only", "Price"],
 };
