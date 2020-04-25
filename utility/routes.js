@@ -24,6 +24,22 @@ router.post("/addPOI", (req, res) => {
     });
 });
 
+// add a new POI as the admin
+router.post("/addUserPOI", (req, res) => {
+  let poiObj = req.body;
+  poiObj.approved = false;
+  const poiToSave = new POI(poiObj);
+  poiToSave
+    .save()
+    .then((response) => {
+      res.send({ success: true });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.send({ sucess: false });
+    });
+});
+
 // Get all the POIs that are not approved yet
 router.get("/getSubmittedPOIs", (req, res) => {
   POI.find({ approved: false })
