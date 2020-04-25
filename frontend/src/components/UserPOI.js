@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import { BASEURL } from "../constants";
 import { Redirect } from "react-router";
+import ImageDisplay from "./ImageDisplay";
 
 export default class UserPOI extends Component {
   constructor(props) {
@@ -9,7 +10,7 @@ export default class UserPOI extends Component {
     this.handleDenyClick = this.handleDenyClick.bind(this);
     this.handleAcceptClick = this.handleAcceptClick.bind(this);
   }
-  
+
   handleDenyClick(e) {
     let { poi } = this.props;
     e.preventDefault();
@@ -55,9 +56,10 @@ export default class UserPOI extends Component {
       <div style={individualPoi}>
         <h3>{poi.name}</h3>
         <p style={poiDetail}>{poi.category}</p>
+        <p style={poiDetail}>{poi.description}</p>
         <p style={poiDetail}>{poi.address}</p>
         <p style={poiDetail}>
-          ({poi.longitude}, {poi.latitude})
+          Location: ({poi.longitude}, {poi.latitude})
         </p>
         {keys
           ? keys.map((k) => {
@@ -85,6 +87,7 @@ export default class UserPOI extends Component {
           >
             Approve
           </button>
+          <ImageDisplay image={poi.image}/>
         </div>
       </div>
     );
