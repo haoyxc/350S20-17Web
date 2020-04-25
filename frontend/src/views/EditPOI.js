@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BASEURL, BUILDINGS } from "../constants";
+import { BASEURL, CATEGORIES } from "../constants";
 import { Redirect } from "react-router";
 import axios from "axios";
 import AddImageButton from "../components/AddImageButton";
@@ -20,12 +20,15 @@ export default class EditPOI extends Component {
       address: poi.address,
       latitude: poi.latitude,
       longitude: poi.longitude,
+      details: poi.details,
+      categoryFields: CATEGORIES[poi.category],
       image: poi.image,
       uploading: false,
-      redirectToMain: false
+      redirectToMain: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChangeDetail = this.handleChangeDetail.bind(this);
   }
 
   // gets called when a file is selected
@@ -38,7 +41,6 @@ export default class EditPOI extends Component {
     reader.readAsDataURL(files[0])
     reader.onload = () => {
       var encodedImage = reader.result
-      console.log(encodedImage)
       if (encodedImage.length > 92404) {
         alert("Image too large, try again with a smaller image.");
       } else {
@@ -86,7 +88,8 @@ export default class EditPOI extends Component {
         address: this.state.address,
         latitude: this.state.latitude,
         longitude: this.state.longitude,
-        image: this.state.image
+        image: this.state.image,
+        details: this.state.details
       })
       .then((resp) => {
         console.log(resp);
@@ -99,8 +102,18 @@ export default class EditPOI extends Component {
         }
       });
   }
+
+  handleChangeDetail(e) {
+    let { details } = this.state;
+    let copyDetails = Object.assign({}, details);
+    copyDetails[e.target.name] = e.target.value;
+    this.setState({ details: copyDetails });
+  }
+
   render() {
-    const { name, description, category, address, latitude, longitude, uploading, image, redirectToMain } = this.state
+    const { name, description, category, address, latitude, longitude, uploading, image, redirectToMain, 
+      categoryFields } = this.state
+    const { details } = this.state;
 
     if (redirectToMain) {
         return <Redirect to="/" />;
@@ -137,7 +150,7 @@ export default class EditPOI extends Component {
             value={description}
             onChange={this.handleChange}
           />
-          <label htmlFor="category">Choose a Category:</label>
+          {/* <label htmlFor="category">Choose a Category:</label>
           <select
             id="category"
             name="category"
@@ -148,7 +161,36 @@ export default class EditPOI extends Component {
             <option value="Bathroom">Bathroom</option>
             <option value="Water Fountain">Water Fountain</option>
             <option value="Study Space">Study Space</option>
-          </select>
+            <option value="Printer">Printer</option>
+            <option value="Outlet">Outlet</option>
+            <option value="Food Truck">Food Truck</option>
+          </select> */}
+          {categoryFields
+            ? categoryFields.map((f) => {
+              if (details) {
+                return (
+                  <input
+                    className="form-control"
+                    type="text"
+                    name={f}
+                    id={f}
+                    value={details[f]}
+                    onChange={this.handleChangeDetail}
+                  />
+                );
+              }
+                return (
+                  <input
+                    className="form-control"
+                    type="text"
+                    name={f}
+                    id={f}
+                    placeholder={f}
+                    onChange={this.handleChangeDetail}
+                  />
+                );
+              })
+            : null}
           <input
             className="form-control"
             type="text"
