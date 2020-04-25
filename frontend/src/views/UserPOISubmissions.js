@@ -22,14 +22,15 @@ export default class UserPOISubmissions extends Component {
       goHome: false,
     };
     this.handleBack = this.handleBack.bind(this);
+    this.handleAcceptedOrRejectedPOI = this.handleAcceptedOrRejectedPOI.bind(this);
   }
 
   handleBack(e) {
     this.setState({ goHome: true });
   }
+
   componentDidMount() {
     //get the POIs here
-    console.log("daa");
     axios.get(`${BASEURL}/getSubmittedPOIs`).then((resp) => {
       console.log(resp.data);
       if (resp.data.pois) {
@@ -37,6 +38,16 @@ export default class UserPOISubmissions extends Component {
       }
     });
   }
+
+  handleAcceptedOrRejectedPOI(deletedPoi) {
+    console.log(deletedPoi._id);
+    this.setState({
+      pois: this.state.pois.filter(function(poi) {
+        return poi.name !== deletedPoi.name;
+      }),
+    });
+  }
+  
   render() {
     let { pois, goHome } = this.state;
     if (goHome) {
@@ -49,7 +60,7 @@ export default class UserPOISubmissions extends Component {
       <div style={outerContainer}>
         <h3>Here are the pOIS</h3>
         {pois.map((p) => (
-          <UserPOI poi={p} />
+          <UserPOI poi={p} handleAcceptedOrRejectedPOI={this.handleAcceptedOrRejectedPOI} />
         ))}
         <HoverText onClick={this.handleBack}>GO BACK</HoverText>
       </div>

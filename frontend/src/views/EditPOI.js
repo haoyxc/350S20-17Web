@@ -38,6 +38,7 @@ export default class EditPOI extends Component {
     reader.readAsDataURL(files[0])
     reader.onload = () => {
       var encodedImage = reader.result
+      console.log(encodedImage)
       if (encodedImage.length > 92404) {
         alert("Image too large, try again with a smaller image.");
       } else {
@@ -82,6 +83,7 @@ export default class EditPOI extends Component {
         name: this.state.name,
         description: this.state.description,
         category: this.state.category,
+        address: this.state.address,
         latitude: this.state.latitude,
         longitude: this.state.longitude,
         image: this.state.image

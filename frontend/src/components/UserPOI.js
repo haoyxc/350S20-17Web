@@ -9,6 +9,7 @@ export default class UserPOI extends Component {
     this.handleDenyClick = this.handleDenyClick.bind(this);
     this.handleAcceptClick = this.handleAcceptClick.bind(this);
   }
+  
   handleDenyClick(e) {
     let { poi } = this.props;
     e.preventDefault();
@@ -23,6 +24,7 @@ export default class UserPOI extends Component {
         } else {
           //no error
           console.log(resp.data);
+          this.props.handleAcceptedOrRejectedPOI(poi)
         }
       });
   }
@@ -40,6 +42,7 @@ export default class UserPOI extends Component {
         } else {
           //no error
           console.log(resp.data);
+          this.props.handleAcceptedOrRejectedPOI(poi)
         }
       });
   }
